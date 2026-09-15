@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주민 참여의 방법 - 4학년 사회 11차시</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  min-height: 100vh; padding: 20px;
+}
+.container { max-width: 940px; margin: 0 auto; }
+.header { text-align: center; color: white; padding: 28px 20px 16px; }
+.header h1 { font-size: 1.9rem; margin-bottom: 6px; text-shadow: 2px 2px 6px rgba(0,0,0,.25); }
+.header p { font-size: .93rem; opacity: .88; }
+.badge {
+  display: inline-block; background: rgba(255,255,255,.25);
+  border: 2px solid rgba(255,255,255,.5);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: .82rem; margin-top: 8px;
+}
+.nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; justify-content: center; }
+.nav-tab {
+  background: rgba(255,255,255,.2); color: white;
+  border: 2px solid rgba(255,255,255,.4);
+  padding: 9px 15px; border-radius: 25px;
+  cursor: pointer; font-size: .85rem; font-weight: bold;
+  transition: all .22s; font-family: inherit;
+}
+.nav-tab:hover, .nav-tab.active { background: white; color: #11998e; }
+
+.section {
+  display: none; background: white; border-radius: 20px;
+  padding: 26px; margin-top: 8px;
+  box-shadow: 0 10px 32px rgba(0,0,0,.18);
+}
+.section.active { display: block; }
+.section h2 {
+  color: #11998e; font-size: 1.35rem;
+  margin-bottom: 16px; padding-bottom: 10px;
+  border-bottom: 3px solid #38ef7d;
+}
+
+/* 학습목표 */
+.goal-box {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white; border-radius: 14px; padding: 22px; margin-bottom: 16px;
+}
+.goal-box h3 { font-size: 1.05rem; margin-bottom: 12px; }
+.goal-list { list-style: none; }
+.goal-list li {
+  padding: 7px 0 7px 30px; position: relative;
+  font-size: .93rem; border-bottom: 1px solid rgba(255,255,255,.2);
+}
+.goal-list li:last-child { border-bottom: none; }
+.goal-list li::before { content: '✅'; position: absolute; left: 0; }
+.think-box { background: #f0fdf4; border: 2px dashed #11998e; border-radius: 14px; padding: 20px; }
+.think-box h3 { color: #11998e; margin-bottom: 10px; }
+.think-box p { font-size: .93rem; line-height: 1.75; }
+
+/* 참여 방법 카드 */
+.methods-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px; margin-top: 14px;
+}
+.method-card {
+  background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 14px;
+  padding: 20px; cursor: pointer; transition: all .25s; text-align: center;
+}
+.method-card:hover, .method-card.open {
+  border-color: #11998e; background: #f0fdf4;
+  transform: translateY(-3px); box-shadow: 0 6px 20px rgba(17,153,142,.18);
+}
+.method-icon { font-size: 2.7rem; margin-bottom: 10px; }
+.method-name { font-size: .97rem; font-weight: bold; color: #333; margin-bottom: 8px; }
+.method-desc {
+  font-size: .86rem; color: #555; line-height: 1.6;
+  display: none; text-align: left; margin-top: 10px;
+  padding-top: 10px; border-top: 1px solid #dee2e6;
+}
+.method-card.open .method-desc { display: block; }
+.hint { color: #888; font-size: .86rem; text-align: center; margin-top: 10px; margin-bottom: 4px; }
+
+/* 사례 조사 */
+.case-box { background: #f0fdf4; border-left: 5px solid #11998e; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.case-box h3 { color: #11998e; margin-bottom: 10px; font-size: .97rem; }
+.case-box p { font-size: .91rem; line-height: 1.8; }
+.case-highlight {
+  background: white; border: 2px solid #11998e; border-radius: 8px;
+  padding: 10px 14px; margin-top: 10px; font-size: .9rem; color: #11998e; font-weight: bold;
+}
+.how-list { list-style: none; }
+.how-list li {
+  padding: 9px 0 9px 32px; position: relative;
+  font-size: .91rem; border-bottom: 1px solid #eee;
+}
+.how-list li:last-child { border-bottom: none; }
+.how-list li:nth-child(1)::before { content: '🔍'; position: absolute; left: 0; }
+.how-list li:nth-child(2)::before { content: '🌐'; position: absolute; left: 0; }
+.how-list li:nth-child(3)::before { content: '💡'; position: absolute; left: 0; }
+
+/* 시민단체 활동가 */
+.activist-def { background: #f3f0ff; border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+.activist-def h3 { color: #764ba2; margin-bottom: 8px; }
+.activist-def p { font-size: .92rem; line-height: 1.75; }
+.activist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.activist-card {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white; border-radius: 14px; padding: 18px;
+}
+.activist-card.full { grid-column: 1 / -1; }
+.activist-card .a-icon { font-size: 2.2rem; margin-bottom: 8px; }
+.activist-card h3 { font-size: .93rem; margin-bottom: 7px; }
+.activist-card p { font-size: .84rem; line-height: 1.6; opacity: .93; }
+
+/* 퀴즈 */
+.quiz-q { background: #f8f9fa; border-radius: 14px; padding: 20px; margin-bottom: 14px; }
+.quiz-q h3 { font-size: .95rem; color: #333; margin-bottom: 12px; line-height: 1.55; }
+.quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  background: white; border: 2px solid #dee2e6; border-radius: 10px;
+  padding: 10px 14px; cursor: pointer; font-size: .9rem;
+  transition: all .2s; text-align: left; font-family: inherit;
+}
+.quiz-opt:hover { border-color: #11998e; background: #f0fdf4; }
+.quiz-opt.correct { border-color: #51cf66 !important; background: #f0fff4 !important; }
+.quiz-opt.wrong { border-color: #ff6b6b !important; background: #fff3f3 !important; }
+.quiz-opt:disabled { cursor: default; }
+.result-box { text-align: center; padding: 20px; display: none; }
+.result-box .score { font-size: 2.8rem; font-weight: bold; color: #11998e; }
+
+/* 패들렛 */
+.padlet-activities {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+}
+.activity-card {
+  background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 12px;
+  padding: 16px; text-align: center;
+}
+.activity-card .a-num {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-weight: bold; font-size: .88rem;
+  margin: 0 auto 8px;
+}
+.activity-card h4 { font-size: .9rem; color: #333; margin-bottom: 6px; }
+.activity-card p { font-size: .81rem; color: #666; line-height: 1.5; }
+.padlet-open-btn {
+  display: block; width: 100%;
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white; border: none; border-radius: 14px;
+  padding: 16px; font-size: 1.05rem; font-weight: bold;
+  cursor: pointer; text-decoration: none; text-align: center;
+  margin-bottom: 14px; transition: opacity .2s; font-family: inherit;
+}
+.padlet-open-btn:hover { opacity: .87; }
+.padlet-tip {
+  background: #fff9c4; border: 2px solid #ffd43b; border-radius: 10px;
+  padding: 12px 16px; margin-bottom: 14px; font-size: .86rem; color: #7c6200; line-height: 1.6;
+}
+.padlet-tip strong { color: #f08c00; }
+.padlet-embed-wrap {
+  border: 3px solid #11998e; border-radius: 14px; overflow: hidden;
+}
+.padlet-embed-wrap iframe { width: 100%; height: 560px; display: block; border: none; }
+
+/* 핵심 정리 */
+.methods-summary { list-style: none; margin-top: 14px; }
+.methods-summary li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px; border-radius: 10px; margin-bottom: 8px;
+  background: #f8f9fa; font-size: .91rem; line-height: 1.55;
+}
+.methods-summary li .ms-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+.methods-summary li strong { color: #11998e; }
+.check-box { background: #f0fdf4; border: 2px solid #11998e; border-radius: 14px; padding: 20px; margin-top: 16px; }
+.check-box h3 { color: #11998e; margin-bottom: 10px; }
+.check-list { list-style: none; }
+.check-list li { padding: 7px 0 7px 28px; position: relative; font-size: .91rem; line-height: 1.55; }
+.check-list li::before { content: '⭕'; position: absolute; left: 0; }
+
+/* 공통 */
+.btn {
+  background: linear-gradient(135deg, #11998e, #38ef7d); color: white;
+  border: none; border-radius: 25px; padding: 12px 26px;
+  font-size: .93rem; font-weight: bold; cursor: pointer;
+  margin-top: 16px; transition: opacity .22s; font-family: inherit;
+}
+.btn:hover { opacity: .86; }
+.btn-gray { background: #adb5bd; margin-left: 8px; }
+.info-box { background: #e8f4fd; border: 2px solid #74b9ff; border-radius: 14px; padding: 18px; margin-top: 14px; }
+.info-box h4 { color: #0984e3; margin-bottom: 8px; }
+.info-box p { font-size: .91rem; line-height: 1.8; }
+.write-box { background: #fff3f3; border: 2px solid #ff8787; border-radius: 14px; padding: 18px; margin-top: 14px; }
+.write-box h3 { color: #e03131; margin-bottom: 6px; }
+.write-box textarea {
+  width: 100%; min-height: 90px; margin-top: 10px;
+  border: 2px solid #dee2e6; border-radius: 10px;
+  padding: 11px; font-family: inherit; font-size: .91rem; resize: vertical;
+}
+.write-box textarea:focus { outline: none; border-color: #11998e; }
+.saved-msg { display: none; margin-top: 10px; background: #f0fdf4; border-radius: 10px; padding: 12px; font-size: .88rem; color: #11998e; }
+
+@media (max-width: 600px) {
+  .methods-grid { grid-template-columns: 1fr 1fr; }
+  .activist-grid { grid-template-columns: 1fr; }
+  .activist-card.full { grid-column: 1; }
+  .padlet-activities { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.4rem; }
+  .padlet-embed-wrap iframe { height: 440px; }
+}
+@media (max-width: 380px) {
+  .methods-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🏛️ 주민 참여의 방법</h1>
+    <p>4학년 사회 · 1단원 11차시</p>
+    <span class="badge">천재교과서</span>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="show('intro',this)">📖 학습목표</button>
+    <button class="nav-tab" onclick="show('methods',this)">🗂️ 참여 방법</button>
+    <button class="nav-tab" onclick="show('case',this)">📋 사례 조사</button>
+    <button class="nav-tab" onclick="show('activist',this)">💼 시민단체 활동가</button>
+    <button class="nav-tab" onclick="show('quiz',this)">❓ 퀴즈</button>
+    <button class="nav-tab" onclick="show('padlet',this)">🖼️ 패들렛 활동</button>
+    <button class="nav-tab" onclick="show('summary',this)">📚 핵심 정리</button>
+  </div>
+
+  <!-- 학습목표 -->
+  <div id="intro" class="section active">
+    <h2>📖 오늘의 학습 목표</h2>
+    <div class="goal-box">
+      <h3>🎯 이렇게 배워요!</h3>
+      <ul class="goal-list">
+        <li>주민들이 지역의 일에 참여하는 방법을 설명할 수 있습니다.</li>
+        <li>우리 지역의 주민 참여 사례를 찾아 발표할 수 있습니다.</li>
+        <li>시민 단체 활동가가 하는 일을 알 수 있습니다.</li>
+      </ul>
+    </div>
+    <div class="think-box">
+      <h3>🤔 먼저 생각해봐요!</h3>
+      <p>주민들은 <strong>어떤 방법</strong>으로 지역의 일에 참여할 수 있을까요?<br><br>
+      우리 지역에서 주민들이 참여한 사례를 본 적이 있나요?<br>
+      오늘은 주민 참여의 방법 <strong>7가지</strong>를 함께 알아봐요! 🌟</p>
+    </div>
+  </div>
+
+  <!-- 참여 방법 7가지 -->
+  <div id="methods" class="section">
+    <h2>🗂️ 주민 참여의 방법 7가지</h2>
+    <p class="hint">카드를 눌러보세요! 방법의 설명을 확인할 수 있어요 👆</p>
+    <div class="methods-grid">
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">🌐</div>
+        <div class="method-name">공공 기관 누리집에<br>의견 올리기</div>
+        <div class="method-desc">시청이나 도청과 같은 공공 기관의 누리집(홈페이지)에 지역문제와 관련된 요구 사항이나 의견을 올립니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">✍️</div>
+        <div class="method-name">서명 운동 하기</div>
+        <div class="method-desc">지역문제의 해결과 관련하여 여러 주민들의 의견을 모으는 서명 운동에 참여합니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">🎤</div>
+        <div class="method-name">공청회 참여하기</div>
+        <div class="method-desc">지역의 중요한 일을 결정하기 전에 전문가, 지역 주민 등 다양한 사람들이 모여 의견을 나눕니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">🗣️</div>
+        <div class="method-name">주민 회의 참여하기</div>
+        <div class="method-desc">지역 주민들이 한자리에 모여 지역의 일에 관해 자유롭게 의견을 나눕니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">🤝</div>
+        <div class="method-name">시민 단체 활동하기</div>
+        <div class="method-desc">정치, 경제, 환경, 교육, 청소년, 건강 등 자신이 관심 있는 분야의 시민 단체에서 활동하면서 지역문제 해결을 위해 노력합니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">🗳️</div>
+        <div class="method-name">주민 투표 참여하기</div>
+        <div class="method-desc">지역의 중요한 일을 결정하기 위한 투표에 참여하여 자신의 의견을 나타냅니다.</div>
+      </div>
+      <div class="method-card" onclick="this.classList.toggle('open')">
+        <div class="method-icon">💰</div>
+        <div class="method-name">주민 참여 예산제<br>참여하기</div>
+        <div class="method-desc">지역의 예산을 어떻게 사용할지 결정하는 과정에 주민들이 직접 참여하여 의견을 제시합니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 사례 조사 -->
+  <div id="case" class="section">
+    <h2>📋 우리 지역 주민 참여 사례 찾기</h2>
+    <div class="case-box">
+      <h3>📖 사례 읽기 — △△구 마을 도서관</h3>
+      <p>△△구에는 주택 여덟 채를 재활용하여 만든 마을 도서관이 있습니다. 문화 시설이 부족했던 △△구의 주민들은 오랫동안 지역에 도서관이 세워지기를 바랐습니다.<br><br>
+      이에 지역 주민들은 도서관을 세우기 위한 <strong>서명 운동</strong>을 벌였고, 많은 사람이 뜻을 모은 결과 주민 참여 도서관이 세워졌습니다.<br><br>
+      현재 주민들이 직접 운영하는 △△구 마을 도서관은 지역 주민들의 공부방, 사랑방으로 널리 이용되고 있습니다.</p>
+      <div class="case-highlight">💡 위 사례에서 주민 참여 방법은? → <strong>서명 운동 하기</strong></div>
+    </div>
+
+    <div style="background:#f8f9fa; border-radius:14px; padding:20px; margin-bottom:14px;">
+      <h3 style="color:#333; margin-bottom:12px;">🔎 우리 지역 사례를 어떻게 조사할까요?</h3>
+      <ul class="how-list">
+        <li>지역 신문이나 뉴스 살펴보기</li>
+        <li>지역의 공공 기관 누리집 방문하기 (시·도청 누리집)</li>
+        <li>그 밖의 조사 방법 (어른들께 여쭤보기, 현장 방문 등)</li>
+      </ul>
+    </div>
+
+    <div class="info-box">
+      <h4>💡 사례 예시</h4>
+      <p>○○동 주민들은 <strong>주민 회의</strong>를 열어 쓰레기가 버려지는 골목 담을 꽃 담장으로 만들었습니다.<br>
+      그 결과, 골목의 쓰레기가 사라지고, 쓰레기를 함부로 버리는 사람도 없어졌습니다.</p>
+    </div>
+
+    <div class="write-box">
+      <h3>✏️ 나의 사례 조사 기록</h3>
+      <p style="font-size:.86rem; color:#666; margin-top:4px;">우리 지역에서 주민들이 참여한 사례를 작성해 보세요!</p>
+      <textarea id="my-case" placeholder="예) ○○동 주민들이 주민 회의를 통해..."></textarea>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn" style="margin-top:0;" onclick="saveCase()">💾 저장하기</button>
+        <button class="btn btn-gray" style="margin-top:0; margin-left:0;" onclick="clearCase()">🗑️ 지우기</button>
+      </div>
+      <div class="saved-msg" id="case-saved"></div>
+    </div>
+  </div>
+
+  <!-- 시민단체 활동가 -->
+  <div id="activist" class="section">
+    <h2>💼 시민 단체 활동가는 어떤 일을 할까?</h2>
+    <div class="activist-def">
+      <h3>📌 시민 단체란?</h3>
+      <p>시민들이 스스로 모여 <strong>사회 전체의 이익</strong>을 위해 활동하는 단체입니다.<br>
+      시민 단체에서는 회원, 자원봉사자, 후원자 등 여러 사람들이 함께 일합니다.<br>
+      그중에서도 시민 단체 활동을 <strong>직업으로 선택한 사람</strong>들을 <strong>'시민 단체 활동가'</strong>라고 합니다.</p>
+    </div>
+    <div class="activist-grid">
+      <div class="activist-card">
+        <div class="a-icon">🔍</div>
+        <h3>문제 발견 &amp; 자료 분석</h3>
+        <p>우리 사회의 문제를 찾아내고, 그 문제를 해결하기 위해 필요한 자료를 수집하고 분석합니다.</p>
+      </div>
+      <div class="activist-card">
+        <div class="a-icon">👁️</div>
+        <h3>기관 감시 &amp; 시민 알림</h3>
+        <p>우리 사회를 구성하는 여러 기관들이 맡은 일을 잘하는지 감시하고, 그 결과를 시민들에게 알립니다.</p>
+      </div>
+      <div class="activist-card full">
+        <div class="a-icon">📚</div>
+        <h3>교육 활동</h3>
+        <p>사회문제에 대한 관심을 높이고 문제 해결에 참여할 수 있도록 어린이, 청소년, 청년, 노인 등 여러 시민들을 대상으로 교육 활동을 합니다.</p>
+      </div>
+    </div>
+    <div style="background:#fff9c4; border:2px solid #ffd43b; border-radius:14px; padding:18px; margin-top:16px;">
+      <h3 style="color:#f08c00; margin-bottom:8px;">💭 내가 시민 단체 활동가라면?</h3>
+      <p style="font-size:.91rem; line-height:1.7;">시민 단체 활동가는 <strong>다음 세대를 위한 가치 있는 삶, 더불어 함께 사는 사회</strong>를 만들기 위해 변화와 개혁을 이끌어 가는 사람들입니다.<br><br>
+      내가 시민 단체 활동가라면 <strong>어떤 분야</strong>에서 활동하고 싶나요? 아래에 써보세요!</p>
+      <textarea id="my-activist" style="width:100%; min-height:70px; margin-top:10px; border:2px solid #dee2e6; border-radius:10px; padding:10px; font-family:inherit; font-size:.9rem; resize:vertical;" placeholder="예) 환경 분야에서 쓰레기 줄이기 운동을 하고 싶습니다. 왜냐하면..."></textarea>
+    </div>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div id="quiz" class="section">
+    <h2>❓ 확인 퀴즈</h2>
+    <p style="color:#555; margin-bottom:16px;">11차시에서 배운 내용을 확인해봐요!</p>
+    <div id="quiz-wrap"></div>
+    <div class="result-box" id="result-box">
+      <div class="score" id="score-num"></div>
+      <p id="score-msg" style="font-size:1.1rem; margin-top:8px;"></p>
+      <button class="btn" onclick="resetQuiz()">🔄 다시 도전하기</button>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn" id="submit-btn" onclick="submitQuiz()">✅ 채점하기</button>
+    </div>
+  </div>
+
+  <!-- 패들렛 활동 -->
+  <div id="padlet" class="section">
+    <h2>🖼️ 패들렛 활동</h2>
+    <p style="color:#555; margin-bottom:16px;">아래 4가지 활동 중 하나(또는 여러 개)를 완성한 후 패들렛에 올려보세요!</p>
+
+    <div class="padlet-activities">
+      <div class="activity-card">
+        <div class="a-num">1</div>
+        <h4>🎨 참여 방법 그림 그리기</h4>
+        <p>7가지 방법 중 하나를 골라 그림으로 표현해 사진 찍어 올려보세요.</p>
+      </div>
+      <div class="activity-card">
+        <div class="a-num">2</div>
+        <h4>📝 우리 지역 사례 올리기</h4>
+        <p>사례 조사 탭에서 기록한 내용을 패들렛에 글로 올려보세요.</p>
+      </div>
+      <div class="activity-card">
+        <div class="a-num">3</div>
+        <h4>💬 활동가 응원 메시지</h4>
+        <p>시민 단체 활동가에게 보내는 응원의 말을 써서 올려보세요.</p>
+      </div>
+      <div class="activity-card">
+        <div class="a-num">4</div>
+        <h4>🗳️ 내가 참여하고 싶은 방법</h4>
+        <p>가장 참여하고 싶은 방법 1가지와 그 이유를 써서 올려보세요.</p>
+      </div>
+    </div>
+
+    <div class="padlet-tip">
+      <strong>📌 패들렛 사용 방법:</strong> 아래 패들렛에서 <strong>+ 버튼</strong>을 눌러 글, 그림, 사진을 올릴 수 있어요!<br>
+      화면이 작거나 로딩이 느리면 <strong>'새 창으로 열기'</strong> 버튼을 이용하세요.
+    </div>
+
+    <a class="padlet-open-btn"
+       href="https://padlet.com/kyn10181/padlet-ct8f6gy1w865crb9"
+       target="_blank" rel="noopener">
+      🔗 패들렛 새 창으로 열기
+    </a>
+
+    <div class="padlet-embed-wrap">
+      <iframe
+        src="https://padlet.com/kyn10181/padlet-ct8f6gy1w865crb9"
+        frameborder="0"
+        allow="camera;microphone;geolocation"
+        title="주민 참여의 방법 - 패들렛 활동">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- 핵심 정리 -->
+  <div id="summary" class="section">
+    <h2>📚 오늘 수업 핵심 정리</h2>
+    <p style="color:#555; margin-bottom:4px;">주민들이 지역의 일에 참여하는 방법 7가지를 정리해봐요!</p>
+    <ul class="methods-summary">
+      <li><span class="ms-icon">🌐</span><div><strong>공공 기관 누리집에 의견 올리기</strong> — 시청·도청 홈페이지에 요구 사항 제출</div></li>
+      <li><span class="ms-icon">✍️</span><div><strong>서명 운동 하기</strong> — 여러 주민의 의견을 모아 문제 해결 촉구</div></li>
+      <li><span class="ms-icon">🎤</span><div><strong>공청회 참여하기</strong> — 전문가·주민이 함께 의견을 나눔</div></li>
+      <li><span class="ms-icon">🗣️</span><div><strong>주민 회의 참여하기</strong> — 지역 주민이 모여 자유롭게 의견 나눔</div></li>
+      <li><span class="ms-icon">🤝</span><div><strong>시민 단체 활동하기</strong> — 관심 분야 시민 단체에서 지역문제 해결</div></li>
+      <li><span class="ms-icon">🗳️</span><div><strong>주민 투표 참여하기</strong> — 투표로 자신의 의견 나타냄</div></li>
+      <li><span class="ms-icon">💰</span><div><strong>주민 참여 예산제 참여하기</strong> — 예산 사용 결정 과정에 직접 참여</div></li>
+    </ul>
+    <div class="check-box">
+      <h3>⭕ 확인해요</h3>
+      <ul class="check-list">
+        <li>주민들은 여러 가지 방법으로 지역의 일에 참여할 수 있습니다. <strong>(O)</strong></li>
+        <li>시민 단체는 시민들이 스스로 모여 <strong>사회 전체</strong>의 이익을 위해 활동하는 단체입니다.</li>
+      </ul>
+    </div>
+    <div style="background:linear-gradient(135deg,#11998e,#38ef7d); color:white; border-radius:14px; padding:20px; margin-top:16px;">
+      <h3 style="margin-bottom:8px;">📅 다음 시간에는</h3>
+      <p style="font-size:.92rem; line-height:1.7;">주민 자치에 참여하는 <strong>태도</strong>를 길러보겠습니다.<br>
+      오늘 배운 7가지 참여 방법을 꼭 기억해두세요! 🌟</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function saveCase() {
+  const val = document.getElementById('my-case').value.trim();
+  if (!val) { alert('사례를 입력해주세요! ✏️'); return; }
+  const el = document.getElementById('case-saved');
+  el.style.display = 'block';
+  el.innerHTML = '✅ 저장되었습니다! 패들렛에도 올려보세요!<br><br><strong>나의 사례:</strong><br>' + val.replace(/\n/g,'<br>');
+}
+function clearCase() {
+  document.getElementById('my-case').value = '';
+  document.getElementById('case-saved').style.display = 'none';
+}
+
+const Q = [
+  {
+    q: "주민들이 지역의 일에 참여하는 방법이 <u>아닌</u> 것은?",
+    opts: ["서명 운동 하기", "공청회 참여하기", "외국으로 이민 가기", "주민 투표 참여하기"],
+    ans: 2
+  },
+  {
+    q: "△△구 주민들이 마을 도서관을 세우기 위해 사용한 참여 방법은?",
+    opts: ["공청회 참여", "서명 운동", "주민 투표", "주민 참여 예산제"],
+    ans: 1
+  },
+  {
+    q: "지역의 중요한 일을 결정하기 전에 전문가, 지역 주민 등 다양한 사람들이 모여 의견을 나누는 것은?",
+    opts: ["주민 회의", "공청회", "서명 운동", "시민 단체 활동"],
+    ans: 1
+  },
+  {
+    q: "시민 단체는 시민들이 스스로 모여 ( )을 위해 활동하는 단체입니다.",
+    opts: ["개인의 이익", "사회 전체의 이익", "정부의 이익", "특정 기업의 이익"],
+    ans: 1
+  },
+  {
+    q: "지역의 예산을 어떻게 사용할지 결정하는 과정에 주민이 직접 참여하는 제도는?",
+    opts: ["주민 투표", "서명 운동", "주민 참여 예산제", "공청회"],
+    ans: 2
+  }
+];
+
+let sel = {};
+
+function initQuiz() {
+  sel = {};
+  document.getElementById('quiz-wrap').innerHTML = Q.map((q, qi) => `
+    <div class="quiz-q">
+      <h3>Q${qi+1}. ${q.q}</h3>
+      <div class="quiz-opts">
+        ${q.opts.map((o, oi) => `
+          <button class="quiz-opt" data-q="${qi}" data-o="${oi}" onclick="pick(${qi},${oi})">
+            ${'①②③④'[oi]} ${o}
+          </button>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('result-box').style.display = 'none';
+  document.getElementById('submit-btn').style.display = 'inline-block';
+}
+
+function pick(qi, oi) {
+  document.querySelectorAll(`[data-q="${qi}"]`).forEach(b => {
+    b.style.borderColor = '#dee2e6'; b.style.background = 'white';
+  });
+  const b = document.querySelector(`[data-q="${qi}"][data-o="${oi}"]`);
+  b.style.borderColor = '#11998e'; b.style.background = '#f0fdf4';
+  sel[qi] = oi;
+}
+
+function submitQuiz() {
+  if (Object.keys(sel).length < Q.length) { alert('모든 문제에 답해주세요! 😊'); return; }
+  let score = 0;
+  Q.forEach((q, qi) => {
+    document.querySelectorAll(`[data-q="${qi}"]`).forEach((b, oi) => {
+      b.disabled = true;
+      if (oi === q.ans) b.classList.add('correct');
+      else if (sel[qi] === oi) b.classList.add('wrong');
+    });
+    if (sel[qi] === q.ans) score++;
+  });
+  document.getElementById('submit-btn').style.display = 'none';
+  const rb = document.getElementById('result-box');
+  rb.style.display = 'block';
+  document.getElementById('score-num').textContent = score + ' / ' + Q.length;
+  const msgs = ['다시 도전해봐요! 📚','조금만 더 공부해요! 💪','잘했어요! 👍','아주 잘했어요! ⭐','완벽해요! 🌟'];
+  document.getElementById('score-msg').textContent = msgs[score];
+}
+
+function resetQuiz() { initQuiz(); }
+
+initQuiz();
+</script>
+</body>
+</html>
